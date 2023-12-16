@@ -35,6 +35,15 @@ def main():
 
     in_arg = get_input_args()
 
+    answers_dic = get_pet_labels(in_arg.dir)
+
+    print("\nanswers_dic has", len(answers_dic), "key-value pairs.\nBelow are 10 of them:")
+    prnt = 0
+    for key in answers_dic:
+        if prnt < 10:
+            print("%2d key: %-30s label: %-26s" % (prnt+1, key, answers_dic[key]))
+        prnt += 1
+
     print("Command Line Arguments:\n    dir=", in_arg.dir, "\n arch=", in_arg.arch, "\n dogfile=", in_arg.dogfile)
 
     end_time = time()
@@ -71,7 +80,7 @@ def get_input_args():
                         help='text file that has dognames')
     in_args = parser.parse_args()
 
-    return parser.parse_args()
+    return in_args
 
 def get_pet_labels(image_dir):
     """
@@ -102,7 +111,6 @@ def get_pet_labels(image_dir):
 
             if in_files[idx] not in pet_labels_dic:
                 pet_labels_dic[in_files[idx]] = pet_label
-
             else:
                 print("Warning: Duplicate files exist in directory", in_files[idx])
 
