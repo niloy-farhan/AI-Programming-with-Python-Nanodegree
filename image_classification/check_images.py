@@ -73,6 +73,43 @@ def get_input_args():
 
     return parser.parse_args()
 
+def get_pet_labels(image_dir):
+    """
+    Creates a dictionary of pet labels based upon the filenames of the image
+    files. This is used to check the accuracy of the image classifier model.
+    Parameters:
+     image_dir - The (full) path to the folder of images that are to be
+                 classified by pretrained CNN models (string)
+    Returns:
+     petlabels_dic - Dictionary storing image filename (as key) and Pet Image
+                     Labels (as value)
+    """
+    in_files = listdir(image_dir)
+
+    pet_labels_dic = dict()
+
+    for idx in range(0, len(in_files), 1):
+        if in_files[idx][0] != ".":
+
+            image_name = in_files[idx].split("_")
+
+            pet_label = ""
+
+            for word in image_name:
+                if word.isalpha():
+                    pet_label += word.lower() + " "
+            pet_label = pet_label.strip()
+
+            if in_files[idx] not in pet_labels_dic:
+                pet_labels_dic[in_files[idx]] =  pet_label
+
+            else:
+                print("Warning: Duplicate files exist in directory", in_files[idx])
+
+    return(pet_labels_dic)
+
+
+
 
 if __name__ == "__main__":
     main()
