@@ -32,6 +32,11 @@ from os import listdir
 # Main program function defined below
 def main():
     start_time = time()
+
+    in_arg = get_input_args()
+
+    print("Command Line Arguments:\n    dir=", in_arg.dir, "\n arch=", in_arg.arch, "\n dogfile=", in_arg.dogfile)
+
     end_time = time()
     tot_time = end_time - start_time
     print("\n** Total Elapsed Runtime:",
@@ -62,11 +67,11 @@ def get_input_args():
     parser.add_argument("--arch", type=str, default='vgg',
                         help='chosen model')
 
-    parser.add_argument('--num', type=int, default=1,
-                        help='Number (integer) input')
+    parser.add_argument('--dogfile', type=str, default='dognames.txt',
+                        help='text file that has dognames')
     in_args = parser.parse_args()
 
-    print("Argument 1:", in_args.dir, " Argument 2:", in_args.num)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
