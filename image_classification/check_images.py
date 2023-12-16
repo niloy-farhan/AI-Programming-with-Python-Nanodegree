@@ -28,16 +28,16 @@ import argparse
 from time import time, sleep
 from os import listdir
 
-#Imports classifier function for using CNN to classify images
 
 # Main program function defined below
 def main():
     start_time = time()
-
-    sleep(75)
     end_time = time()
-
     tot_time = end_time - start_time
-    print("\n** Total Elapsed Runtime:", tot_time, "in seconds.")
+
+
     print("\n** Total Elapsed Runtime:",
           str(int((tot_time / 3600))) + ":" + str(int((tot_time % 3600) / 60)) + str(int((tot_time % 3600) % 60)))
+
+
+main()
