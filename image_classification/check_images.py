@@ -44,12 +44,11 @@ def main():
             print("%2d key: %-30s label: %-26s" % (prnt+1, key, answers_dic[key]))
         prnt += 1
 
-    print("Command Line Arguments:\n    dir=", in_arg.dir, "\n arch=", in_arg.arch, "\n dogfile=", in_arg.dogfile)
-
     end_time = time()
     tot_time = end_time - start_time
     print("\n** Total Elapsed Runtime:",
-          str(int((tot_time / 3600))) + ":" + str(int((tot_time % 3600) / 60)) + str(int((tot_time % 3600) % 60)))
+          str(int((tot_time / 3600))) + ":" + str(int((tot_time % 3600) / 60)) + ":" + str(int((tot_time % 3600) % 60)))
+
 
 def get_input_args():
     """
@@ -70,7 +69,7 @@ def get_input_args():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--dir', type=str, default='my_folder/',
+    parser.add_argument('--dir', type=str, default='pet_images/',
                         help='path to the folder my_folder')
 
     parser.add_argument("--arch", type=str, default='vgg',
@@ -82,41 +81,48 @@ def get_input_args():
 
     return in_args
 
+
 def get_pet_labels(image_dir):
     """
-    Creates a dictionary of pet labels based upon the filenames of the image
-    files. This is used to check the accuracy of the image classifier model.
+    Creates a dictionary of pet labels (results_dic) based upon the filenames
+    of the image files. These pet image labels are used to check the accuracy
+    of the labels that are returned by the classifier function, since the
+    filenames of the images contain the true identity of the pet in the image.
+    Be sure to format the pet labels so that they are in all lower case letters
+    and with leading and trailing whitespace characters stripped from them.
+    (ex. filename = 'Boston_terrier_02259.jpg' Pet label = 'boston terrier')
     Parameters:
      image_dir - The (full) path to the folder of images that are to be
-                 classified by pretrained CNN models (string)
+                 classified by the classifier function (string)
     Returns:
-     petlabels_dic - Dictionary storing image filename (as key) and Pet Image
-                     Labels (as value)
+      results_dic - Dictionary with 'key' as image filename and 'value' as a
+      List. The list contains for following item:
+         index 0 = pet image label (string)
     """
+    # Creates list of files in directory
     in_files = listdir(image_dir)
 
-    pet_labels_dic = dict()
+    results_dic = dict()
 
     for idx in range(0, len(in_files), 1):
+
         if in_files[idx][0] != ".":
-
-            image_name = in_files[idx].split("_")
-
+            pet_image = in_files[idx].lower().split("_")
             pet_label = ""
 
-            for word in image_name:
+            for word in pet_image:
                 if word.isalpha():
                     pet_label += word.lower() + " "
             pet_label = pet_label.strip()
 
-            if in_files[idx] not in pet_labels_dic:
-                pet_labels_dic[in_files[idx]] = pet_label
+            if in_files[idx] not in results_dic:
+                results_dic[in_files[idx]] = [pet_label]
+
             else:
-                print("Warning: Duplicate files exist in directory", in_files[idx])
+                print("** Warning: Duplicate files exist in directory:",
+                      in_files[idx])
 
-    return(pet_labels_dic)
-
-
+    return results_dic
 
 
 if __name__ == "__main__":
