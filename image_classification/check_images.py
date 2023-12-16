@@ -35,9 +35,22 @@ def main():
     end_time = time()
     tot_time = end_time - start_time
 
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--dir', type=str, default='my_folder/',
+                        help='path to the folder my_folder')
+
+    parser.add_argument('--num', type=int, default=1,
+                        help='Number (integer) input')
+    in_args = parser.parse_args()
+
+    print("Argument 1:", in_args.dir, " Argument 2:", in_args.num)
 
     print("\n** Total Elapsed Runtime:",
           str(int((tot_time / 3600))) + ":" + str(int((tot_time % 3600) / 60)) + str(int((tot_time % 3600) % 60)))
 
 
-main()
+if __name__ == "__main__":
+    main()
+
+
