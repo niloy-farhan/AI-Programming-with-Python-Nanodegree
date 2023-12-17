@@ -177,7 +177,7 @@ def classify_images(images_dir, pet_label_dic, model):
     results_dic = dict()
 
     for key in pet_label_dic:
-        model_label = classifier(images_dir + key, model)
+        model_label = classifier(images_dir+key, model)
 
         model_label = model_label.lower()
         model_label = model_label.strip()
@@ -192,7 +192,7 @@ def classify_images(images_dir, pet_label_dic, model):
                       (model_label[found + len(truth): found + len(truth) + 1] in
                        (",", " "))
                      )
-                    )
+                )
             ):
                 if key not in results_dic:
                     results_dic[key] = [truth, model_label, 1]
