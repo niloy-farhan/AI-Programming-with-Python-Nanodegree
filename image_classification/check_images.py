@@ -39,6 +39,26 @@ def main():
 
     answers_dic = get_pet_labels(in_arg.dir)
 
+    result_dic = classify_images(in_arg.dir, answers_dic, in_arg.arch)
+    print("\nMATCH:")
+    n_match = 0
+    n_not_match = 0
+
+    for key in results_dic:
+        if results_dic[key][2] == 1:
+            n_match += 1
+            print("Real: {:<26s} Classifier: {:<30s}".format(results_dic[key][0], results_dic[key][1]))
+
+    print("\nNOT A MATCH:")
+    for key in results_dic:
+        if results_dic[key][2] == 0:
+            n_not_match += 1
+            print("Real: {:<26s} Classifier: {:<30s}".format(results_dic[key][0], results_dic[key][1]))
+
+    print("# Matches:", n_match)
+    print("# Total Images:", n_match + n_not_match)
+    print("# NOT Matches:", n_not_match)
+
     end_time = time()
     tot_time = end_time - start_time
     print("\n** Total Elapsed Runtime:",
