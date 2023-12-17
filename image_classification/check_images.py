@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/check_images.py
 #
-# TODO 0: Add your information below for Programmer & Date Created.                                                                             
+# TODO 0: Add your information below for Programmer & Date Created.
 # PROGRAMMER: Niloy Farhan
 # DATE CREATED: Thu 14 Dec 2023
-# REVISED DATE: 
+# REVISED DATE:
 # PURPOSE: Classifies pet images using a pretrained CNN model, compares these
 #          classifications to the true identity of the pets in the images, and
-#          summarizes how well the CNN performed on the image classification task. 
-#          Note that the true identity of the pet (or object) in the image is 
+#          summarizes how well the CNN performed on the image classification task.
+#          Note that the true identity of the pet (or object) in the image is
 #          indicated by the filename of the image. Therefore, your program must
 #          first extract the pet image label from the filename before
-#          classifying the images using the pretrained CNN model. With this 
+#          classifying the images using the pretrained CNN model. With this
 #          program we will be comparing the performance of 3 different CNN model
 #          architectures to determine which provides the 'best' classification.
 #
@@ -30,8 +30,6 @@ from os import listdir
 from classifier import classifier
 
 
-
-# Main program function defined below
 def main():
     start_time = time()
 
@@ -39,7 +37,7 @@ def main():
 
     answers_dic = get_pet_labels(in_arg.dir)
 
-    result_dic = classify_images(in_arg.dir, answers_dic, in_arg.arch)
+    results_dic = classify_images(in_arg.dir, answers_dic, in_arg.arch)
     print("\nMATCH:")
     n_match = 0
     n_not_match = 0
@@ -186,23 +184,25 @@ def classify_images(images_dir, pet_label_dic, model):
 
         truth = pet_label_dic[key]
         found = model_label.find(truth)
+
         if found >= 0:
-            if (found == 0 and len(truth) == len(model_label)) or \
-                    ((found == 0 or model_label[found - 1] == " ") and
-                     (found + len(truth) == len(model_label) or
-                      model_label[found + len(truth): found + len(truth) + 1] in [",", ","])):
+            if ((found == 0 and len(truth) == len(model_label)) or
+                    (((found == 0) or (model_label[found - 1] == " ")) and
+                     ((found + len(truth) == len(model_label)) or
+                      (model_label[found + len(truth): found + len(truth) + 1] in
+                       (",", " "))
+                     )
+                    )
+            ):
                 if key not in results_dic:
                     results_dic[key] = [truth, model_label, 1]
                 else:
-                    results_dic[key] = [truth, model_label, 0]
-            else:
-                if key not in results_dic:
                     results_dic[key] = [truth, model_label, 0]
         else:
             if key not in results_dic:
                 results_dic[key] = [truth, model_label, 0]
 
-        return results_dic
+    return results_dic
 
 
 if __name__ == "__main__":
