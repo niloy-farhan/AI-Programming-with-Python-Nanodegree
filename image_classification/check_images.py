@@ -39,13 +39,6 @@ def main():
 
     answers_dic = get_pet_labels(in_arg.dir)
 
-    print("\nanswers_dic has", len(answers_dic), "key-value pairs.\nBelow are 10 of them:")
-    prnt = 0
-    for key in answers_dic:
-        if prnt < 10:
-            print("%2d key: %-30s label: %-26s" % (prnt+1, key, answers_dic[key]))
-        prnt += 1
-
     end_time = time()
     tot_time = end_time - start_time
     print("\n** Total Elapsed Runtime:",
